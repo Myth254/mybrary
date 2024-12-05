@@ -33,8 +33,7 @@ router.get('/new', async (req, res) => {
 })
 
 // Create Book Route
-router.post('/', upload.single('cover'), async (req, res) => {
-  const fileName = req.file != null ? req.file.filename : null
+router.post('/', async (req, res) => {
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
@@ -68,9 +67,9 @@ async function renderNewPage(res, book, hasError = false) {
 }
 
 function saveCover(book, coverEncoded) {
-  if(coverEncoded == null) return
+  if (coverEncoded == null) return
   const cover = JSON.parse(coverEncoded)
-  if(cover != null && imageMimeTypes.includes(cover.type)) {
+  if (cover != null && imageMimeTypes.includes(cover.type)) {
     book.coverImage = new Buffer.from(cover.data, 'base64')
     book.coverImageType = cover.type
   }
